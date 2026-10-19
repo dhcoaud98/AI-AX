@@ -1,0 +1,4 @@
+# 실습 중 생기는 파일
+notes.txt
+.venv/
+__pycache__/

@@ -1,100 +1,71 @@
-# AI-AX 
+# AI-AX: 뒤처지지 않기 위한 나만의 AI 뉴스룸
 
-**git 로컬 환경 연결하기 ​​** 
+AX·AI·기업교육 소식을 **매일 자동으로 받아 보고**, **궁금할 때 AI에게 직접 물어볼 수 있도록** 만든 저장소입니다.
 
-1. GIT 로컬 환경 다운로드
+| 작업 | 한 마디 정의 | 비유 |
+|---|---|---|
+| 데일리 브리핑 (예약 작업) | 매일 아침 AX·AI·기업교육 소식을 요약해 자동으로 쌓는 브리핑 | 📬 신문 배달 |
+| MCP 6단계 뉴스 도구 | 궁금할 때 AI에게 최신 소식을 물어볼 수 있게 해 주는 뉴스 도구 | 📰 신문 가판대 |
 
-2. GIT 로컬 저장소 만들기
+---
 
-   1. ```bash
-      mkdir ~/{디렉토리명} && cd ~/test
-      ```
+## 📬 데일리 브리핑 → [`briefings/`](briefings/)
 
-   2. 생성된 디렉토리 초기화(init)하여 Git 로컬 저장소로 생성
+매일 아침 8시 45분(한국 시간), Claude 예약 작업이 웹에서 소식을 모아 요약한 뒤 이 저장소에 올립니다.
 
-      ```bash
-      git init .
-      ```
+- **영역:** 🤖 AI·개발 / 🏢 AX 기업 / 🎓 기업교육
+- **형식:** 소식마다 요약 2~3문장 + **"→ 나에게 의미"** 한 줄 + 출처 링크
+- **위치:** `briefings/YYYY/MM/YYYY-MM-DD.md`
+- **목록:** [briefings/README.md](briefings/README.md)
 
-      :small_red_triangle_down: 성공적으로 로컬 저장소가 생성되면 Git bash 터미널 명령어 라인 앞에 현재 Git 기본 브랜치 이름을 나타내는 "(master)"가 붙는다. 
+```
+매일 08:45 → Claude 예약 작업(클라우드) → 웹 검색 → 브리핑 작성 → 이 저장소에 커밋·푸시
+```
 
-   3. ```bash
-      # 숨겨진 디렉토리 조회 하면 디렉토리 내의 모든 이력을 객체(스냅샷과 비슷)로 저장하는 '.git' 디텍토리가 생성 됨을 알 수 있다.
-      
-      ls -al
-      ```
+컴퓨터가 꺼져 있어도 클라우드에서 실행됩니다.
 
-   4. 만약 로컬 저장소를 일반 폴더로 변경하고 싶으면 다음과 같이 입력하면 된다.
+---
 
-      ```bash
-      rm -rf .git/
-      ```
+## 📰 MCP 뉴스 도구 → [`mcp-class/`](mcp-class/)
 
-3. git에 생성된 저장소의 url을 복사한다.
+MCP 입문 강의 실습 서버입니다. AI에게 도구를 하나씩 달아 주며 MCP를 배우고, 6단계에서 최신 뉴스를 가져오는 도구를 만듭니다.
 
-4. ```bash
-   git remote add origin {git 저장소 url}
-   ```
+| 단계 | 도구 | AI가 원래 못 하는 것 |
+|---|---|---|
+| 1 ⏰ 시계 | `now`, `d_day` | 지금이 언제인지 모름 |
+| 2 🎲 주사위 | `roll_dice`, `pick_one` | 진짜 무작위를 못 만듦 |
+| 3 📝 메모장 | `save_note`, `list_notes` | 새 채팅을 열면 잊어버림 |
+| 4 📊 성적표 | `students://all`, `subject_average`, `students_above` | 내 컴퓨터 파일을 모름 |
+| 5 🌤 날씨 | `weather` | 바깥 날씨를 모름 |
+| **6 📰 뉴스** | **`latest_news`** | **오늘 나온 소식을 모름** |
 
-5. ```bash
-   # 연결된 원격저장소 정보 확인하기
-   
-   git remote -v
-   ```
+**핵심:** 도구는 뉴스 제목과 링크만 **가져오고**, 고르고 요약하고 해석하는 건 **AI가** 합니다.
 
-6. ```bash
-   # 연결된 저장소 삭제
-   
-   git remote remove origin
-   ```
+### 실행하기
 
-**로컬 :arrow_forward: 원격 올리기** (로컬 환경에 git 설정 + 저장소 연결 완료 후)
+```bash
+cd mcp-class
+uv sync
+uv run test_client.py        # 도구 10개 자동 테스트
+uv run mcp dev server.py     # 브라우저에서 도구 하나씩 눌러 보기
+```
 
-1. ```bash
-   git add . 
-   or
-   git add {파일명}
-   ```
+Claude Desktop 연결 방법과 수업 진행 순서는 [강의안](mcp-class/강의안.md)을 참고하세요.
 
-2. ```bash
-   # 로그와 상태 확인
-   
-   git log
-   git status
-   ```
+---
 
-3. ```bash
-   # 로컬 저장소에 변경사항 커밋하기
-   
-   git commit -m "first-commit"
-   ```
+## 폴더 구조
 
-4. ```bash
-   # 원격 저장소에 푸쉬하기
-   
-   git push 
-   ```
-
-
-
-:warning: ```git push origin master``` 이후 계속해서 username, password(토큰) 입력하는 경우
-
-1. ```bash
-   git config --global user.name {깃헙 id}
-   ```
-
-2. ```bash
-   git config --gloval user.email {깃헙이메일주소}
-   ```
-
-3. ```bash
-   git config credential.helper store --global
-   ```
-
-4. 한번 더 username, password(토큰) 입력해서 push
-
-5. ```bash
-   git config credential.helper store --global
-   ```
-
-   
+```
+AI-AX/
+├── README.md            ← 지금 보는 파일
+├── briefings/           ← 📬 데일리 브리핑 (매일 자동 추가)
+│   ├── README.md
+│   └── 2026/10/2026-10-19.md ...
+└── mcp-class/           ← 📰 MCP 강의 실습 서버
+    ├── 강의안.md
+    ├── server.py
+    ├── test_client.py
+    ├── students.csv
+    └── pyproject.toml
+```
