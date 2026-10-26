@@ -54,6 +54,26 @@ Claude Desktop 연결 방법과 수업 진행 순서는 [강의안](mcp-class/�
 
 ---
 
+## 👥 HR 관점으로 넓히기
+
+HRD(사람을 키우는 일)에서 HR(뽑고, 배치하고, 평가하고, 보상하고, 지키는 일)로 공부 범위를 넓히는 두 서버입니다. mcp-class와 같은 구조라 따로 실행하고 따로 연결합니다.
+
+| 서버 | 한 마디 정의 | mcp-class에서 이어지는 단계 |
+|---|---|---|
+| [`hr-analytics/`](hr-analytics/) | 인사 데이터를 **집계만** 보여 주는 피플 애널리틱스 서버 | 4단계 📊 성적표 + 3단계 🔒 보안 |
+| [`hr-news/`](hr-news/) | 노무·채용 AI·인사제도 뉴스를 매일 읽고 공부노트에 쌓는 서버 | 6단계 📰 뉴스 |
+
+- **hr-analytics 핵심:** AI가 무엇을 볼 수 있는지는 프롬프트가 아니라 **도구 설계**가 정한다. 개인 단위 결과 없음, 3명 미만 집단 숨김, 모든 조회 기록.
+- **hr-news 핵심:** 도구가 신문을 가져다주고, Claude가 골라 읽어 주고, 나는 "나에게 의미" 한 줄만 남긴다.
+
+```bash
+cd hr-analytics   # 또는 hr-news
+uv sync
+uv run test_client.py
+```
+
+---
+
 ## 폴더 구조
 
 ```
@@ -62,10 +82,19 @@ AI-AX/
 ├── briefings/           ← 📬 데일리 브리핑 (매일 자동 추가)
 │   ├── README.md
 │   └── 2026/10/2026-10-19.md ...
-└── mcp-class/           ← 📰 MCP 강의 실습 서버
-    ├── 강의안.md
+├── mcp-class/           ← 📰 MCP 강의 실습 서버
+│   ├── 강의안.md
+│   ├── server.py
+│   ├── test_client.py
+│   ├── students.csv
+│   └── pyproject.toml
+├── hr-analytics/        ← 👥 피플 애널리틱스 + 개인정보 보호
+│   ├── README.md
+│   ├── server.py
+│   ├── employees.csv    ← 가짜 직원 데이터
+│   └── test_client.py
+└── hr-news/             ← 👥 HR 뉴스 (노무·채용 AI·인사제도)
+    ├── README.md
     ├── server.py
-    ├── test_client.py
-    ├── students.csv
-    └── pyproject.toml
+    └── test_client.py
 ```
